@@ -36,9 +36,9 @@ set -o nounset
 set -o noclobber
 
 # shellcheck disable=SC1090
-source <(curl --silent https://raw.githubusercontent.com/webyneter/shell-scripts/master/sourced/shell.bash)
+source <(curl --silent https://raw.githubusercontent.com/webyneter/shell-scripts/develop/sourced/shell.bash)
 # shellcheck disable=SC1090
-source <(curl --silent https://raw.githubusercontent.com/webyneter/shell-scripts/master/sourced/tfc.bash)
+source <(curl --silent https://raw.githubusercontent.com/webyneter/shell-scripts/develop/sourced/tfc.bash)
 
 create_or_update_workspace \
   "${TERRAFORM_VERSION}" \
