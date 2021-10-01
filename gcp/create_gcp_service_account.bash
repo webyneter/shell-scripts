@@ -57,7 +57,7 @@ gcloud --project="${project_id}" iam service-accounts create "${name}" \
   --description="${description}" \
   --display-name="${name}"
 
-printf "Creating a private key for the %s, and downloading it...\n" "${name}"
+printf 'Creating a private key for the %s, and downloading it...\n' "${name}"
 email="${name}@${project_id}.iam.gserviceaccount.com"
 gcloud --project="${project_id}" iam service-accounts keys create "${private_key_dir_path}/${email}.json" \
   --iam-account="${email}"

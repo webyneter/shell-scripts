@@ -38,11 +38,11 @@ project_id="${1}"
 username="${2}"
 iam_roles="${3}"
 
-printf 'Assigning %s IAM roles...' "${username}"
+printf 'Assigning %s IAM roles...\n' "${username}"
 email="${username}@${project_id}.iam.gserviceaccount.com"
 set -- ${iam_roles}
 for role; do
-  printf "Assigning %s the %s IAM role..." "${username}" "${role}"
+  printf 'Assigning %s the %s IAM role...\n' "${username}" "${role}"
   gcloud --project="${project_id}" projects add-iam-policy-binding "${project_id}" \
     --member="serviceAccount:${email}" \
     --role="${role}"
