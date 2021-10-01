@@ -26,40 +26,38 @@
 ### The caller must be authenticated against GCP.
 ###
 ### Required arguments:
-###   1:   the username prefix of the Service Account.
-###   2:   the ID of the Project where the Service Account is to be created.
-###   [3]: the full path of the directory where the created Service Account's private JSON key is to be downloaded to;
+###   1:   the ID of the Project where the Service Account is to be created.
+###   2:   the username prefix of the Service Account.
+###   3:   the description of the Service Account.
+###   [4]: the full path of the directory where the created Service Account's private JSON key is to be downloaded to;
 ###        defaults to .gcp_service_account_private_keys/
 
 set -o errexit
 set -o nounset
 set -o noclobber
 
-username_prefix="${1}"
-project_id="${2}"
-service_account_private_key_dir_path="${3:-.gcp_service_account_private_keys}"
+project_id="${1}"
+username_prefix="${2}"
+description="${3}"
+private_key_dir_path="${4:-.gcp_service_account_private_keys}"
 
 # Why the random suffix:
 # https://cloud.google.com/iam/docs/understanding-service-accounts#deleting_and_recreating_service_accounts
-random_hex="$(openssl rand -hex 4)"
-service_account_name="${username_prefix}-${random_hex}"
+name="${username_prefix}-$(openssl rand -hex 4)"
 
-printf "A %s Service Account is about to be created in the %s project, 'Y' or 'y' to confirm: " "${service_account_name}" "${project_id}"
+printf "A %s Service Account is about to be created in the %s project, 'Y' or 'y' to confirm: " "${name}" "${project_id}"
 read prompt_reply
 if [ "${prompt_reply}" = "${prompt_reply#[Yy]}" ]; then
-  printf 'Exited without creating a Service Account.'
+  printf 'Exited without creating a Service Account.\n'
   exit 0
 fi
 
-printf 'Creating a %s Service Account in the %s project...' "${service_account_name}" "${project_id}"
-gcloud \
-  --project="${project_id}" \
-  iam service-accounts create "${service_account_name}" \
-  --description="For use by Terraform" \
-  --display-name="${service_account_name}"
+printf 'Creating a %s Service Account in the %s project...\n' "${name}" "${project_id}"
+gcloud --project="${project_id}" iam service-accounts create "${name}" \
+  --description="${description}" \
+  --display-name="${name}"
 
-printf "Creating a private key for the %s, and downloading it..." "${service_account_name}"
-gcloud \
-  --project="${project_id}" \
-  iam service-accounts keys create "${service_account_private_key_dir_path}/${service_account_email}.json" \
-  --iam-account="${service_account_email}"
+printf "Creating a private key for the %s, and downloading it...\n" "${name}"
+email="${name}@${project_id}.iam.gserviceaccount.com"
+gcloud --project="${project_id}" iam service-accounts keys create "${private_key_dir_path}/${email}.json" \
+  --iam-account="${email}"
