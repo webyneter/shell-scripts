@@ -28,8 +28,7 @@
 ### Required arguments:
 ###   1:   the username prefix of the Service Account.
 ###   2:   the ID of the Project where the Service Account is to be created.
-###   3:   a quoted string of space-separated IAM roles that the Service Account is to be assigned.
-###   [4]: the full path of the directory where the created Service Account's private JSON key is to be downloaded to;
+###   [3]: the full path of the directory where the created Service Account's private JSON key is to be downloaded to;
 ###        defaults to .gcp_service_account_private_keys/
 
 set -o errexit
@@ -38,8 +37,7 @@ set -o noclobber
 
 username_prefix="${1}"
 project_id="${2}"
-iam_roles="${3}"
-service_account_private_key_dir_path="${4:-.gcp_service_account_private_keys}"
+service_account_private_key_dir_path="${3:-.gcp_service_account_private_keys}"
 
 # Why the random suffix:
 # https://cloud.google.com/iam/docs/understanding-service-accounts#deleting_and_recreating_service_accounts
@@ -59,18 +57,6 @@ gcloud \
   iam service-accounts create "${service_account_name}" \
   --description="For use by Terraform" \
   --display-name="${service_account_name}"
-
-printf 'Granting %s IAM roles...' "${service_account_name}"
-service_account_email="${service_account_name}@${project_id}.iam.gserviceaccount.com"
-set -- ${iam_roles}
-for role; do
-  printf "Granting %s the %s IAM role..." "${service_account_name}" "${role}"
-  gcloud \
-    --project="${project_id}" \
-    projects add-iam-policy-binding "${project_id}" \
-    --member="serviceAccount:${service_account_email}" \
-    --role="${role}"
-done
 
 printf "Creating a private key for the %s, and downloading it..." "${service_account_name}"
 gcloud \
