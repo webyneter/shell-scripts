@@ -34,13 +34,13 @@ confirm_or_exit() {
   local reply
   while true; do
     read -p "${message}" reply
-    printf '\n'
     case "${reply}" in
     [Yy]*)
+      printf '\n'
       break
       ;;
     *)
-      printf 'No confirmation has been given—exiting.'
+      printf 'No confirmation has been given—exiting.\n'
       exit "${non_confirmation_exit_code}"
       ;;
     esac
