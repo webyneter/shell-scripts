@@ -34,6 +34,7 @@ confirm_or_exit() {
   local reply
   while true; do
     read -p "${message}" reply
+    printf '\n'
     case "${reply}" in
     [Yy]*)
       break
@@ -44,5 +45,4 @@ confirm_or_exit() {
       ;;
     esac
   done
-  printf '\n'
 }
