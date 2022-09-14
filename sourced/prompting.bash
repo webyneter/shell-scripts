@@ -41,11 +41,11 @@ confirm_or_exit() {
     read -p "${message}" reply
     case "${reply}" in
     [Yy]*)
-      printf '%s\n' "$(italic 'The confirmation has been given, proceeding...')"
+      printf 'The confirmation has been given, proceeding...\n'
       break
       ;;
     *)
-      printf '%s\n' "$(italic 'No confirmation has been given, exiting...')"
+      printf 'No confirmation has been given, exiting...\n'
       exit "${non_confirmation_exit_code}"
       ;;
     esac
