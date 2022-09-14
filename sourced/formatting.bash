@@ -36,3 +36,16 @@ bold() {
 
   printf '%s%s%s' "${bold_font_code}" "${text}" "${regular_font_code}"
 }
+
+italic() {
+  ### Make the text italic.
+
+  local text="${1}"
+
+  local italic_font_code
+  italic_font_code="$(tput 'sitm')"
+  local regular_font_code
+  regular_font_code="$(tput 'sgr0')"
+
+  printf '%s%s%s' "${italic_font_code}" "${text}" "${regular_font_code}"
+}
