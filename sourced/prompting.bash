@@ -32,7 +32,8 @@ confirm_or_exit() {
   ### Based upon https://stackoverflow.com/a/226724
 
   local message
-  message=$(bold "${1} ('Y' or 'y' to confirm): ")
+  message=$(bold "${1}")
+  message="${message} ('Y' or 'y' to confirm): "
   local non_confirmation_exit_code="${2:-0}"
 
   local reply
