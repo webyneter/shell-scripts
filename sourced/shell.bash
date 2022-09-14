@@ -20,8 +20,7 @@ generate_random_string() {
   head /dev/urandom | tr -dc A-Za-z0-9 | head -c "${length}"
 }
 
-format_url() {
-  # TODO: rename to bold_url
+bold_url() {
   local url="${1}"
 
   printf '%s' "$(bold "${url}")"
