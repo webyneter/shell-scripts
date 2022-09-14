@@ -25,7 +25,7 @@
 ### Prompting scripts to be sourced into other scripts.
 
 # shellcheck disable=SC1090
-source <(curl --silent https://raw.githubusercontent.com/webyneter/shell-scripts/1.0.0/sourced/formatting.bash)
+source <(curl --silent https://raw.githubusercontent.com/webyneter/shell-scripts/1.1.0/sourced/formatting.bash)
 
 confirm_or_exit() {
   ### Request confirmation to proceed, or exit otherwise.
@@ -41,11 +41,11 @@ confirm_or_exit() {
     read -p "${message}" reply
     case "${reply}" in
     [Yy]*)
-      printf '\n'
+      printf '%s\n' "$(italic 'The confirmation has been given, proceeding...')"
       break
       ;;
     *)
-      printf 'No confirmation has been given—exiting.\n'
+      printf '%s\n' "$(italic 'No confirmation has been given, exiting...')"
       exit "${non_confirmation_exit_code}"
       ;;
     esac
