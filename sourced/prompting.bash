@@ -45,7 +45,7 @@ confirm_or_exit() {
       break
       ;;
     *)
-      printf 'No confirmation has been given, exiting...\n\n'
+      printf 'No confirmation has been given, exiting...\n'
       exit "${non_confirmation_exit_code}"
       ;;
     esac
