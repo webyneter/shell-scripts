@@ -24,11 +24,15 @@
 
 ### Prompting scripts to be sourced into other scripts.
 
+# shellcheck disable=SC1090
+source <(curl --silent https://raw.githubusercontent.com/webyneter/shell-scripts/1.0.0/sourced/formatting.bash)
+
 confirm_or_exit() {
   ### Request confirmation to proceed, or exit otherwise.
-  ### Based upn https://stackoverflow.com/a/226724
+  ### Based upon https://stackoverflow.com/a/226724
 
-  local message="${1} ('Y' or 'y' to confirm): "
+  local message
+  message=$(bold "${1} ('Y' or 'y' to confirm): ")
   local non_confirmation_exit_code="${2:-0}"
 
   local reply
